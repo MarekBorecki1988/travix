@@ -1,0 +1,10 @@
+{
+  "name": "travian-playwright",
+  "version": "1.0.0",
+  "scripts": {
+    "login": "node scripts/login.js"
+  },
+  "dependencies": {
+    "playwright": "^1.43.1"
+  }
+}

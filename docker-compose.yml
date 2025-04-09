@@ -1,34 +1,42 @@
-version: '3.8'
-
 services:
   backend:
     build: ./backend
+    container_name: travix-backend
     ports:
       - "3000:3000"
+    volumes:
+      - ./backend:/app
     depends_on:
-      - playwright
       - db
+      - playwright
+    networks:
+      - travix-net
 
   playwright:
     build: ./playwright
+    container_name: travix-playwright
+    volumes:
+      - ./playwright:/app
     networks:
-      - backend
+      - travix-net
 
   db:
-    image: postgres:13
+    image: postgres:14
+    container_name: travix-db
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: travian
+      POSTGRES_PASSWORD: secret
       POSTGRES_DB: travian
     ports:
       - "5432:5432"
     volumes:
-      - db-data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - travix-net
 
 networks:
-  backend:
+  travix-net:
     driver: bridge
 
 volumes:
-  db-data:
-
+  pgdata:
